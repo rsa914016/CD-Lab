@@ -18,14 +18,14 @@ int main() {
     scanf("%[^\n]s", A);
     for (i = 0; A[i] != '\0'; i++) {
         if (A[i] == '"'){
-            if (start == 0) start = 1;
-            else{start = 0; count ++;}
+            start++;
+            count++;
         }
-        if (is_delimiter(A[i]) || isalpha(A[i]) || isdigit(A[i]) ||start == 1)
+        if (is_delimiter(A[i]) || isalpha(A[i]) || isdigit(A[i]))
             count++;
         length++;  
     }
-    if (length == count) printf("Valid String", A);
+    if (length == count && start % 2 == 0) printf("Valid String", A);
     else printf("Invalid String", A);
 
 return 0;

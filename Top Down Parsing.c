@@ -1,30 +1,82 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-int main() {
-	int a[30] = {0};
-	int min=10000, temp=0, i, j, lev, n, no_of_c, z;
-	printf("Enter n :");
-	scanf("%d", &n);
-	printf("Enter root :");
-	scanf("%d", &a[0]);
-	for(i = 1; i <= n / 2; i++) {
-		printf("Enter No.of Child Of Parent With Value %d : ", a[i - 1]);
-		scanf("%d", &no_of_c);
-		for(j = 1; j <= no_of_c; j++) {
-			z = i * 2 + j - 2;
-			printf("Enter Value Of Child : ");
-			scanf("%d", &a[z]);
+void check(void);
+void set_value_backtracking(void);
+void get_value_backtracking(void);
+void display_output_string(void);
+
+int iptr=0,optr=0,current_optr=0;
+char output_string[20],current_output_string[20],input_string[20],temp_string[20];
+int main(){
+	printf("\nEnter the string to check: ");
+	scanf("%s",input_string);
+	check();
+	return 0;
+}
+void check(void){
+	int flag=1,rule2_index=1;
+    strcpy(output_string,"S");
+    printf("\nThe output string in different stages are:\n");
+    while(iptr<=strlen(input_string)){
+		if(strcmp(output_string,temp_string)!=0){
+    		display_output_string();
+		}
+        if((iptr!=strlen(input_string)) || (optr!=strlen(output_string))){
+            if(input_string[iptr]==output_string[optr]){
+                iptr=iptr+1;
+                optr=optr+1;
+			}
+			else{
+                if(output_string[optr]=='S'){
+                    memset(output_string,0,strlen(output_string));
+                    strcpy(output_string,"cAd");
+				}
+				else if(output_string[optr]=='A'){
+                    set_value_backtracking();
+                    if(rule2_index==1){
+                    	memset(output_string,0,strlen(output_string));
+                    	strcpy(output_string,"cabd");
+					}
+                    else{
+                    	memset(output_string,0,strlen(output_string));
+                    	strcpy(output_string,"cad");
+					}
+				}
+				else if(output_string[optr]=='b' && input_string[iptr]=='d'){
+                    rule2_index=2;
+                    get_value_backtracking();
+                    iptr=iptr-1;
+				}
+                else{
+                    printf("\nThe given string, '%s' is invalid.\n\n",input_string);
+                    break;
+				}
+			}
+		}
+		else{
+            printf("\nThe given string, '%s' is valid.\n\n",input_string);
+            break;
 		}
 	}
-	for(i = n - 1; i >= n / 2; i--) {
-	    temp = 0;
-	    for(j= i + 1; j >= 1; j = j / 2)
-		    temp = temp + a[j - 1];
-	    if(temp < min)
-		    min = temp;
-	    printf("Temp Min is %d \n", temp);
-	}
-	printf("Min is %d ", min);
-	
-return 0;
+}           
+void set_value_backtracking(void){
+	//setting values for backtracking
+    current_optr=optr;
+    strcpy(current_output_string,output_string);
+    return;
+}
+void get_value_backtracking(void){
+    //backtracking and obtaining previous values
+    optr=current_optr;
+    memset(output_string,0,strlen(output_string));
+    strcpy(output_string,current_output_string);
+    return;
+}
+void display_output_string(void){
+    printf("%s\n",output_string);
+    memset(temp_string,0,strlen(temp_string));
+    strcpy(temp_string,output_string);
+    return;
 }

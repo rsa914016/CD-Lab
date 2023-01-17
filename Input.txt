@@ -1,7 +1,4 @@
-#include<stdio.h>
-
-int main()
-{
-    printf("Hello World!");
-return 0;
-}
++ a b t1
+* c d t2
+- t1 t2 t
+= t ? x
